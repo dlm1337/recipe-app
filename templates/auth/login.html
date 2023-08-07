@@ -1,0 +1,41 @@
+{% extends "recipe/recipes_home.html" %}
+{% load static %}
+{% load custom_filters %}
+
+
+{% block main %}
+<div class="row" style="margin-top: 206px">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;">
+            <section class="container"
+                style="color: white; text-align: center; justify-content: center; align-items: center;">
+                <div class="row">
+                    <div class="col-12">
+                        {% if error_message %}
+                        {{error_message}}
+                        {% endif %}
+                        <form action="" method="POST" style="display: flex; text-align: center; justify-content: center; align-items:
+                        center;">
+                            {% comment %} add Django security token {% endcomment %}
+                            {% csrf_token %}
+
+                            {% comment %} print form received from view {% endcomment %}
+                            <div style="padding: 10px;">
+                                {{ login_form.as_p }}
+
+                                {% comment %} add button {% endcomment %}
+                                <button class="btn-primary" type="submit" style="width: 240px; height: 60px;"
+                                    name="login_btn">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}
+{% block welcome_script %}
+{% endblock %}

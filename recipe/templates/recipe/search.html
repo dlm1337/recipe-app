@@ -1,0 +1,74 @@
+{% extends "recipe/recipes_home.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block main %}
+<div class="row" style="margin-top: 156px">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <main>
+            <section class="container" style="padding-bottom: 20px; color: white">
+                {% if search_results_df %}
+                <div class="table-responsive">
+                    {{ search_results_df | safe }}
+                </div>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block welcome_script %}
+<style>
+    #search-results-table {
+        background-color: #132e18;
+        color: white;
+    }
+
+    #search-results-table th {
+        color: #632623;
+        background-color: #f8a19e;
+        text-align: center;
+        align-items: center;
+    }
+
+    #search-results-table td {
+        text-align: center;
+        align-items: center;
+    }
+
+    #search-results-table td {
+        text-align: center;
+        align-items: center;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #2ac549;
+    }
+</style>
+
+<script>
+    // Parse the recipeUrls JSON string back to a JavaScript object
+    const recipeUrls = JSON.parse('{{ recipe_urls_json|safe }}');
+
+    // Add event listener to table rows
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById('search-results-table');
+        const rows = table.getElementsByTagName('tr');
+        for (let i = 0; i < rows.length; i++) {
+            rows[i].addEventListener('click', function () {
+                // Handle the onclick event here
+                const recipeTitle = this.cells[0].textContent;
+                const recipeUrl = recipeUrls[recipeTitle];
+                if (recipeUrl) {
+                    window.location.href = recipeUrl;
+                } else {
+                    alert('Recipe URL not found for: ' + recipeTitle);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

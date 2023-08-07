@@ -1,0 +1,22 @@
+{% extends "recipe/recipes_home.html" %}
+{% block main %}
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;
+         align-items: center; text-align: center; justify-content: center;">
+            <section class="container" style="color: white;"> you have successfully logged out.
+
+
+                <div class="btn-group" role="group" aria-label="Button row"> <button type="button"
+                        class="btn btn-primary mx-2"> <a href="{%url 'login' %}"> Login
+                        </a></button></div>
+
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block welcome_script %}
+{% endblock %}

@@ -1,0 +1,179 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+
+<body style="background:linear-gradient(#3D5038, #151b14)">
+    {% block navbar %}
+    <header>
+        <div class="container">
+            <nav class="navbar" style="position:absolute; top:0px; left: 0px; width: 100%">
+                <div class="col-4">
+                    <img class="img-fluid" style="width:240px; pointer-events: none;"
+                        src="../../static/images/tomato-g820ca7bb9_640.png">
+                </div>
+                <div class="col-5">
+                    <form action="{% url 'recipe:search' %}" method="post">
+                        {% csrf_token %}
+                        {{ search_form.as_p }}
+                        <button class="btn btn-primary" type="submit" name="search_btn">Search</button>
+                    </form>
+                </div>
+                <div class="col-3">
+                    <div class="btn-group" role="group" aria-label="Button row" id="buttonContainer">
+                        {% if user.is_authenticated %}
+                        <button type="button" class="btn btn-primary mx-2"><a href="{%url 'logout' %}"> Logout
+                            </a></button>
+                        <button type="button" class="btn btn-primary mx-2"><a href="{%url 'your_profile' %}">
+                                Profile
+                            </a></button>
+                        {% else %}
+                        <button type="button" class="btn btn-primary mx-2"> <a href="{%url 'login' %}"> Login
+                            </a></button>
+                        <button id="signUpBtn" type="button" class="btn btn-primary mx-2" data-bs-toggle="popover"
+                            data-bs-html="true">
+                            <a href="{%url 'register' %}"> Register
+                            </a>
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    {% endblock %}
+
+    {% block main %}
+    <div class="row" style="margin-top: 206px">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;">
+                <section class="container" style="color: white;">
+                    {% for object in object_list %}
+                    <div class="row">
+                        {% if forloop.counter|divisibleby:2 %}
+                        <div class="col-5 p-0">
+                            <div class="card h-100 card-style" style="border-radius: 0;">
+                                <div class="card-body">
+                                    <h3 class="card-title card-title-underline card-title-style">
+                                        <b>{{object.title}}</b>
+                                    </h3>
+                                    <p class="card-text card-text-border">{{ object.small_desc}}</p>
+                                    <a href="{{object.get_absolute_url}}" class="btn btn-primary">View Recipe</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-7 p-0">
+                            <img src="{{object.pic.url}}" class="img-fluid" style="width:auto; max-height: 600px"
+                                alt="Recipe Image">
+                        </div>
+                        {% else %}
+                        <div class="col-7 p-0">
+                            <img src="{{object.pic.url}}" class="img-fluid" style="width:auto;max-height: 600px;"
+                                alt="Recipe Image">
+                        </div>
+                        <div class="col-5 p-0">
+                            <div class="card h-100 card-style" style="border-radius: 0;">
+                                <div class=" card-body">
+                                    <h3 class="card-title card-title-underline card-title-style">
+                                        <b>{{object.title}}</b>
+                                    </h3>
+                                    <p class="card-text card-text-border">
+                                        {{ object.small_desc}}</p>
+                                    <a href="{{object.get_absolute_url}}" style="bottom: 0px;"
+                                        class="btn btn-primary">View Recipe</a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </section>
+            </main>
+        </div>
+    </div>
+    {% endblock %}
+    {% block footer %}
+    <footer>
+        <div class="container">
+            <nav class="navbar" style="position:absolute; bottom: 15px; left: 0px; width: 100%">
+                <div class="col-2">
+                    <div class="container text-center">
+                        <p>2023 Recipe App.</p>
+                    </div>
+                </div>
+                <div class="col-7"></div>
+                <div class="col-3">
+                    <div class="btn-group" role="group" aria-label="Button row">
+                        <button type="button" class="btn btn-primary mx-2">About</button>
+                        <button type="button" class="btn btn-primary mx-2">Contact</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </footer>
+    {% endblock %}
+
+    {% block left-navbar %}
+    <div class="left-navigation">
+        <ul>
+            <li><a href="/" class="btn btn-primary left-nav-button" type="submit">Home</a></li>
+
+            {% if user.is_authenticated %}
+            <li><a href="/your_recipes" class="btn btn-primary left-nav-button" type="submit">Your Recipes</a></li>
+            <li><a href="/create" class="btn btn-primary left-nav-button" type="submit">Create</a></li>
+            <li><a class="btn btn-primary left-nav-button" type="submit">Edit</a></li>
+            {% else %}
+            <li><a class="btn btn-primary left-nav-button" type="submit" hidden>Your Recipes</a>
+            </li>
+            <li><a class="btn btn-primary left-nav-button" type="submit" hidden>Create</a></li>
+            <li><a class="btn btn-primary left-nav-button" type="submit" hidden>Edit</a></li>
+            {% endif %}
+            </li>
+        </ul>
+    </div>
+
+
+    {% endblock %}
+
+    {% block welcome_script %}
+    {% if not user.is_authenticated %}
+    <div id="signUpPopoverContent" style="display: none;">
+        <div>
+            <h3>Register</h3>
+            <p>Enter your details to register.</p>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function initializePopover() {
+            var signUpBtn = document.getElementById('signUpBtn');
+            var signUpPopover = new bootstrap.Popover(signUpBtn, {
+                content: document.getElementById('signUpPopoverContent').innerHTML,
+                boundary: 'viewport',
+                placement: 'bottom'
+            });
+
+            signUpPopover.show();
+
+            setTimeout(function () {
+                signUpPopover.hide();
+            }, 5000);
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            initializePopover();
+        });
+    </script>
+    {% endif %}
+    {% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+{% extends "recipe/recipes_home.html" %}
+{% block main %}
+<div class="row">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;
+         align-items: center; text-align: center; justify-content: center;">
+            <section class="container" style="color: white;">
+                <form method="post">
+                    {% csrf_token %}
+                    <p>Are you sure you want to delete "{{ object }}"?</p>
+                    <button class="btn btn-warning" type="submit">Confirm</button>
+                </form>
+                <a class="btn btn-primary" href="{% url 'recipe:delete' object.pk %}"
+                    style="margin-top: 40px">Cancel</a>
+
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block welcome_script %}
+{% endblock %}

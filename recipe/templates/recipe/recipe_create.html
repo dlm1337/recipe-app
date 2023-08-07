@@ -1,0 +1,54 @@
+{% extends "recipe/recipes_home.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block main %}
+<div class="row" style="margin-top: 206px; text-align: center; justify-content: center; align-items: center;">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <main>
+            <section class="container"
+                style="padding-left: 70px; padding-right: 70px; padding-bottom: 20px; height: auto; color: white">
+                <form method="post" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
+                    justify-content: left; text-align: left; align-items: left;">
+
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                    <div
+                        style="display: flex; background-color:#2F2332; padding: 10px; border-radius: 5px; border-radius: 5px;">
+                        <label style="min-width: 102px;">{{ field.label_tag }}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+
+                    <button class="btn btn-primary" type="submit"
+                        style="grid-column: span 2; height: 100px; margin-left: 15%; margin-right: 15%;">Create
+                        Recipe</button>
+                </form>
+            </section>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block welcome_script %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var textareas = document.querySelectorAll("textarea");
+        var title = document.getElementsByName("title");
+        var pic = document.getElementById("id_pic")
+
+        pic.className += "btn btn-primary";
+        pic.style.width = "320px"
+
+        title.forEach((ele) => {
+            ele.style.height = "36px"
+            ele.style.width = "100%"
+        });
+        textareas.forEach(function (textarea) {
+            textarea.style.height = "100px";
+            textarea.style.width = "auto";
+        });
+    });
+</script>
+{% endblock %}

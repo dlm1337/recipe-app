@@ -1,0 +1,139 @@
+{% extends "recipe/recipes_home.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block main %}
+<div class="row" style="margin-top: 156px">
+    <div class="col-2"></div>
+    <div class="col-10">
+        <main>
+            <section class="container" style="color: white;">
+                <div class="row">
+                    <div class="col-12" style="text-align: center; justify-content: center;">
+                        <h1 class="card-title-underline card-title-style"><b>{{object.title}}</b></h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="text-align: center; justify-content: center;">
+                        <img src="{{object.pic.url}}" style="padding-bottom: 6px; width: 400px;" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-2" style="text-align: left; justify-content: left; padding-bottom: 20px;">
+                        <br>
+                        <b class="card-title-style">Provided By: </b>{{object.user}}
+                        <br>
+                        <b class="card-title-style">Ingredients: </b>
+                        {% for ingredient in object.recipe_ingredients.all %}
+                        {{ ingredient.ingredient }} - {{ ingredient.amount }} {{ ingredient.amount_type }}
+                        {% if not forloop.last %}| {% endif %}
+                        {% endfor %}
+                        <br>
+                        <b class="card-title-style">Directions: </b>{{object.directions}}
+                        <br>
+                        <b class="card-title-style">Cooking Time: </b>{{object.cooking_time}} minutes
+                        <br>
+                        <b class="card-title-style">Difficulty: </b>{{object.calculate_difficulty}}
+                    </div>
+                    <div class="col-2" style="text-align: left; justify-content: left; padding-bottom: 20px;">
+
+                        <br>
+                        <b class="card-title-style">Star Count: </b>{{object.star_count}} stars
+                        <br>
+                        <b class="card-title-style">Recipe Type: </b>{{object.recipe_type}}
+                        <br>
+                        <b class="card-title-style">Adapted Link: </b>{{object.adapted_link}}
+                        <br>
+                        <b class="card-title-style">Servings: </b>{{object.servings}}
+                        <br>
+                        <b class="card-title-style">Yield Amount: </b>{{object.yield_amount}}
+                        <br>
+                        <b class="card-title-style">Allergens: </b>{{object.allergens}}
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+                {% if recipe_dataframe %}
+                <div class="row">
+                    <div class="col-12" style="text-align: center; justify-content: center;">
+                        <h1 class="card-title-style card-title-underline">
+                            <b>Ingredient
+                                Info</b>
+                        </h1>
+                    </div>
+
+                </div>
+                <div class="row recipe-dataframe-positioning">
+                    <div class="table-responsive">
+                        {% autoescape off %}
+                        {{ recipe_dataframe | safe }}
+                        {% endautoescape %}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" style="text-align: center; justify-content: center;">
+                        <h1 class="card-title-style card-title-underline">
+                            <b>Ingredient Analysis</b>
+                        </h1>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <img src="data:image/png;base64, {{chart1|safe}}" class="chart-img">
+                    <br>
+                    <img src="data:image/png;base64, {{chart2|safe}}" class="chart-img">
+                    <br>
+                    <img src="data:image/png;base64, {{chart3|safe}}" class="chart-img">
+                </div>
+                {% endif %}
+                <br>
+            </section>
+        </main>
+    </div>
+</div>
+</div>
+{% endblock %}
+
+{% block welcome_script %}
+<style>
+    .recipe-dataframe-positioning {
+        padding-left: 56px;
+        padding-right: 56px;
+        padding-top: 10px;
+    }
+
+    .chart-img {
+        padding-left: 60px;
+        padding-right: 60px;
+        padding-top: 20px;
+    }
+
+    #ingredient-info-table {
+        background-color: #132e18;
+        color: white;
+    }
+
+    #ingredient-info-table th {
+        color: #632623;
+        background-color: #f8a19e;
+        text-align: center;
+        align-items: center;
+    }
+
+    #ingredient-info-table td {
+        text-align: center;
+        align-items: center;
+    }
+
+    #ingredient-info-table td {
+        text-align: center;
+        align-items: center;
+        color: white;
+    }
+
+    tr:hover {
+        background-color: #2ac549;
+    }
+</style>
+
+{% endblock %}
