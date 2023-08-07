@@ -1,1 +1,1 @@
-web: gunicorn recipe-app.wsgi --log-level debug
+web: gunicorn recipe_project.wsgi --log-level debug
