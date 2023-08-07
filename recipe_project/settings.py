@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,13 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
- 
+
 
 ALLOWED_HOSTS = []
 
-
+DEBUG = False
 # Application definition
-
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-ml49cp(e)=yakpevh4xz)3w)6xuq6kv7g&3^xf^)gr-n3&p#%9",
+)
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -39,11 +43,12 @@ INSTALLED_APPS = [
     "recipeingredient",
     "recipeingredientintermediary",
     "customuser",
-    'bootstrap5',
+    "bootstrap5",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,7 +70,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                 "recipe.context_processors.search_form",
+                "recipe.context_processors.search_form",
             ],
         },
     },
@@ -117,16 +122,12 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
+# https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT= BASE_DIR / 'media'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'recipe/static'),
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
+# The absolute path to the directory where collectstatic will collect static files for deployment.
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -136,5 +137,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # AUTH
 LOGIN_URL = "/login/"
 
-AUTH_USER_MODEL = 'customuser.CustomUser'
+AUTH_USER_MODEL = "customuser.CustomUser"
 
+# Heroku: Update database configuration from $DATABASE_URL.
+
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES["default"].update(db_from_env)
