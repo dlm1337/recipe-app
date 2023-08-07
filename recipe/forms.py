@@ -37,16 +37,12 @@ class RecipeSearchForm(forms.Form):
 
 
 class RecipeForm(forms.ModelForm):
-    pic = forms.ImageField(
-        required=False
-    )  # Use ImageField or FileField based on your needs
-
     class Meta:
         model = Recipe
         exclude = [
             "user",
             "recipe_ingredients",
-        ]
+        ]  # Exclude user and recipe_ingredient fields from the form
 
     def save(self, commit=True, user=None):
         instance = super().save(commit=False)
