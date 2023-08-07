@@ -10,7 +10,7 @@
             <section class="container"
                 style="padding-left: 70px; padding-right: 70px; padding-bottom: 20px; height: auto; color: white">
                 <form method="post" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
-                    justify-content: left; text-align: left; align-items: left;">
+                    justify-content: left; text-align: left; align-items: left;" enctype="multipart/form-data">
 
                     {% csrf_token %}
                     {% for field in form.visible_fields %}

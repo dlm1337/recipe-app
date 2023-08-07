@@ -1,6 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
-from customuser.models import CustomUser 
+from customuser.models import CustomUser
 
 RECIPE_TYPES = (
     ("breakfast", "Breakfast"),
@@ -42,7 +42,7 @@ class Recipe(models.Model):
     small_desc = models.TextField(
         max_length=200, default="No Description has been added currently."
     )
-    pic = models.ImageField(upload_to='', blank=True, null=True)
+    pic = models.ImageField(upload_to="", blank=True, null=True)
 
     def __str__(self):
         return str(self.title)
