@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class CustomUser(AbstractUser):
-    pic = models.BinaryField(blank=True, null=True)
+    pic = models.ImageField(upload_to='', blank=True, null=True)
     about_me = models.TextField()
     favorite_food = models.CharField(max_length=255)
 
