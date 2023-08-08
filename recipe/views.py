@@ -188,11 +188,7 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        if form.is_valid():
-            return super().form_valid(form)
-        else:
-            print(form.errors)
-            return self.form_invalid(form)
+        return super().form_valid(form)
 
 
 class IngredientAddView(LoginRequiredMixin, CreateView):
