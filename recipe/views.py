@@ -112,13 +112,13 @@ class RecipeSearchView(FormView):
             "Recipe Title": [recipe.title for recipe in queryset],
             "Star Count": [recipe.star_count for recipe in queryset],
             "Cooking Time": [recipe.cooking_time for recipe in queryset],
-            "Picture": [recipe.pic.url for recipe in queryset],
+            "Picture": [recipe.pic for recipe in queryset],
         }
         df = pd.DataFrame(data)
 
         # Modify the DataFrame to include the image as an HTML img tag
         df["Picture"] = df["Picture"].apply(
-            lambda url: format_html('<img src="{}" width="200px">', url)
+            lambda base64_data: f'<img src="data:image/jpeg;base64,{base64_data}" width="200px">'
         )
 
         # Convert the modified DataFrame to HTML
@@ -187,9 +187,7 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
-        base64_string = form.cleaned_data.get(
-            "base64_string"
-        )  # Assuming the field name is 'pic' in your form
+        base64_string = form.cleaned_data.get("base64_string")
         if base64_string:
             form.instance.pic = base64_string
         return super().form_valid(form)

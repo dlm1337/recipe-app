@@ -5,9 +5,23 @@ from django.contrib.auth.forms import PasswordChangeForm
 
 
 class CustomUserCreationForm(UserCreationForm):
+    spacer = forms.CharField(widget=forms.HiddenInput(attrs={"id": "spacer"}))
+
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = UserCreationForm.Meta.fields + ("pic", "about_me", "favorite_food")
+        fields = UserCreationForm.Meta.fields + (
+            "email",
+            "pic",
+            "about_me",
+            "favorite_food",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["pic"].required = False
+        self.fields["about_me"].required = False
+        self.fields["favorite_food"].required = False
+        self.fields["spacer"].required = False
 
 
 class CustomUserUpdateForm(forms.ModelForm):

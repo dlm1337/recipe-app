@@ -9,9 +9,8 @@
         <main>
             <section class="container"
                 style="padding-left: 70px; padding-right: 70px; padding-bottom: 20px; height: auto; color: white">
-                <form method="post" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
+                <form id="recipeCreate" method="post" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
                     justify-content: left; text-align: left; align-items: left;" enctype="multipart/form-data">
-
                     {% csrf_token %}
                     {% for field in form.visible_fields %}
                     <div
@@ -20,8 +19,7 @@
                         {{ field }}
                     </div>
                     {% endfor %}
-                    <input type="file" id="imageInput" name="image">
-                    <input type="hidden" id="base64Input" name="base64_string">
+                    {{ form.base64_string }}
                     <button class="btn btn-primary" type="submit"
                         style="grid-column: span 2; height: 100px; margin-left: 15%; margin-right: 15%;">Create
                         Recipe</button>
@@ -37,11 +35,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         var textareas = document.querySelectorAll("textarea");
         var title = document.getElementsByName("title");
-        var pic = document.getElementById("id_pic")
-
-        pic.className += "btn btn-primary";
-        pic.style.width = "320px"
-
         title.forEach((ele) => {
             ele.style.height = "36px"
             ele.style.width = "100%"
@@ -52,17 +45,18 @@
         });
     });
 
-    document.getElementById('imageForm').addEventListener('submit', function (e) {
+    document.getElementById('recipeCreate').addEventListener('submit', function (e) {
         e.preventDefault();
 
         let fileInput = document.getElementById('imageInput');
         let file = fileInput.files[0];
 
+
         let reader = new FileReader();
         reader.onloadend = function () {
             let base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
             document.getElementById('base64Input').value = base64String;
-            document.getElementById('imageForm').submit();
+            document.getElementById('recipeCreate').submit();
         }
         reader.readAsDataURL(file);
     });

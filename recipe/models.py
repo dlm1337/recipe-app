@@ -43,6 +43,7 @@ class Recipe(models.Model):
         max_length=200, default="No Description has been added currently."
     )
     pic = models.TextField()
+    
 
     def __str__(self):
         return str(self.title)

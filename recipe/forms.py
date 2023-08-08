@@ -37,6 +37,16 @@ class RecipeSearchForm(forms.Form):
 
 
 class RecipeForm(forms.ModelForm):
+    # Define the additional fields
+    image = forms.ImageField(
+        label="Image",
+        widget=forms.ClearableFileInput(attrs={"id": "imageInput"}),
+        required=False,
+    )
+    base64_string = forms.CharField(
+        widget=forms.HiddenInput(attrs={"id": "base64Input"})
+    )
+
     class Meta:
         model = Recipe
         exclude = [

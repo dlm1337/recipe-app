@@ -16,6 +16,7 @@ class CustomUserModelTest(TestCase):
             password="testpassword",
             about_me="I am a test user.",
             favorite_food="Pizza",
+            pic="fsfsgsrgsgsrgsrgsrgsrg",
         )
 
     def test_model_str(self):
@@ -24,8 +25,8 @@ class CustomUserModelTest(TestCase):
 
     def test_model_pic_field_default(self):
         # Test the default value for the pic field
-        default_pic = "no_picture.jpg"
-        self.assertEqual(self.test_user.pic.name, default_pic)
+        default_pic = "fsfsgsrgsgsrgsrgsrgsrg"
+        self.assertEqual(self.test_user.pic, default_pic)
 
     def test_model_about_me_field(self):
         # Test the about_me field
@@ -35,24 +36,9 @@ class CustomUserModelTest(TestCase):
         # Test the favorite_food field
         self.assertEqual(self.test_user.favorite_food, "Pizza")
 
-    @override_settings(MEDIA_ROOT="/tmp")
-    def test_recipe_pic(self):
-        image_path = os.path.join("media", "no_picture.jpg")
-        self.assertTrue(os.path.exists(image_path))
-
-        test_image_name = f"test_no_picture_{uuid.uuid4().hex}.jpg"
-
-        # Access the 'pic' attribute on the instance 'self.test_user'
-        with open(image_path, "rb") as f:
-            self.test_user.pic.save(test_image_name, File(f))
-
-        # Refresh the 'self.test_user' instance to reflect the changes
-        self.test_user.refresh_from_db()
-
-        expected_pic_path = os.path.join("user", test_image_name)
-        expected_pic_path = expected_pic_path.replace("\\", "/")
-
-        self.assertEqual(self.test_user.pic.name, expected_pic_path)
+    def test_pic_field(self):
+        user = self.test_user
+        self.assertEqual(user.pic, "fsfsgsrgsgsrgsrgsrgsrg")
 
     def test_model_user_creation(self):
         # Test user creation

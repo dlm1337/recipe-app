@@ -10,16 +10,18 @@
                 <form method="post" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
             justify-content: left; text-align: left; align-items: left;">
                     {% csrf_token %}
+                    <div
+                        style="display: flex; background-color:#2F2332; padding: 10px; border-radius: 5px; border-radius: 5px;">
+                        {{ form.spacer}}
+                    </div>
                     {% for field in form.visible_fields %}
-
                     <div
                         style="display: flex; background-color:#2F2332; padding: 10px; border-radius: 5px; border-radius: 5px;">
                         <label style="min-width: 102px;">{{ field.label_tag }}</label>
-                        <div>{{ field }}</div> {# Separate the label and field rendering #}
+                        <div>{{ field }}</div>
                     </div>
-
                     {% endfor %}
-                    <input type="hidden" name="submit_type" value="profile_update_btn">
+                    <input type="hidden" name="submit_type" value="register_btn">
                     <button type="submit" class="btn btn-primary mt-3"
                         style="grid-column: span 2; height: 100px; margin-left: 15%; margin-right: 15%;">Register</button>
                 </form>

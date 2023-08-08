@@ -72,12 +72,12 @@
                             </div>
                         </div>
                         <div class="col-7 p-0">
-                            <img src="{{object.pic.url}}" class="img-fluid" style="width:auto; max-height: 600px"
+                            <img src="data:image/jpeg;base64,{{ object.pic }}" class="img-fluid" style="width:auto; max-height: 600px"
                                 alt="Recipe Image">
                         </div>
                         {% else %}
                         <div class="col-7 p-0">
-                            <img src="{{object.pic.url}}" class="img-fluid" style="width:auto;max-height: 600px;"
+                            <img src="data:image/jpeg;base64,{{ object.pic }}" class="img-fluid" style="width:auto;max-height: 600px;"
                                 alt="Recipe Image">
                         </div>
                         <div class="col-5 p-0">
