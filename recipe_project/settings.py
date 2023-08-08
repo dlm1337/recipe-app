@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-# serene-eyrie-98382-920f167cb9ee.herokuapp.com
-DEBUG = True
+ALLOWED_HOSTS = ["serene-eyrie-98382-920f167cb9ee.herokuapp.com"]
+
+DEBUG = False
 # Application definition
 SECRET_KEY = os.environ.get(
     "DJANGO_SECRET_KEY",
@@ -128,8 +128,8 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 # The absolute path to the directory where collectstatic will collect static files for deployment.
 STATIC_ROOT = BASE_DIR / "staticfiles"
-
 MEDIA_URL = "/media/"
+
 MEDIA_ROOT = BASE_DIR / "media"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
