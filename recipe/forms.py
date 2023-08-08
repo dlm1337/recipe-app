@@ -37,17 +37,26 @@ class RecipeSearchForm(forms.Form):
 
 
 class RecipeForm(forms.ModelForm):
+    pic = forms.ImageField(
+        required=False
+    )  # Use ImageField or FileField based on your needs
+
     class Meta:
         model = Recipe
         exclude = [
             "user",
             "recipe_ingredients",
-        ]  # Exclude user and recipe_ingredient fields from the form
+        ]
 
     def save(self, commit=True, user=None):
         instance = super().save(commit=False)
         if user:
             instance.user = user
+
+        pic_data = self.cleaned_data.get("pic")
+        if pic_data:
+            instance.pic = pic_data.read()  # Store the binary data in the 'pic' field
+
         if commit:
             instance.save()
         return instance
