@@ -42,12 +42,8 @@ class RecipeForm(forms.ModelForm):
         exclude = [
             "user",
             "recipe_ingredients",
-            "pic"
+            "pic",
         ]  # Exclude user and recipe_ingredient fields from the form
-
-        pic = forms.FileField(
-            widget=forms.ClearableFileInput(attrs={"accept": "image/*"})
-        )
 
     def save(self, commit=True, user=None):
         instance = super().save(commit=False)

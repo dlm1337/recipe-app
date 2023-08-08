@@ -20,7 +20,8 @@
                         {{ field }}
                     </div>
                     {% endfor %}
-                    <input type="hidden" id="base64_pic" name="pic" value="">
+                    <input type="file" id="imageInput" name="image">
+                    <input type="hidden" id="base64Input" name="base64_string">
                     <button class="btn btn-primary" type="submit"
                         style="grid-column: span 2; height: 100px; margin-left: 15%; margin-right: 15%;">Create
                         Recipe</button>
@@ -51,25 +52,19 @@
         });
     });
 
-    const picInput = document.querySelector('input[type="file"]');
-    const base64PicInput = document.getElementById('base64_pic');
+    document.getElementById('imageForm').addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    picInput.addEventListener('change', async (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const base64Data = await toBase64(file);
-            base64PicInput.value = base64Data;
+        let fileInput = document.getElementById('imageInput');
+        let file = fileInput.files[0];
+
+        let reader = new FileReader();
+        reader.onloadend = function () {
+            let base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
+            document.getElementById('base64Input').value = base64String;
+            document.getElementById('imageForm').submit();
         }
+        reader.readAsDataURL(file);
     });
-
-    function toBase64(file) {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                resolve(event.target.result);
-            };
-            reader.readAsDataURL(file);
-        });
-    }
 </script>
 {% endblock %}

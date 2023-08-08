@@ -11,7 +11,6 @@ from .models import Recipe
 from django.views.generic.edit import CreateView
 from recipeingredient.models import RecipeIngredient
 from ingredient.models import Ingredient
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
 
@@ -187,9 +186,12 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
     success_url = "/your_recipes"  # Use the actual URL name for success URL
 
     def form_valid(self, form):
-        form.instance.user = (
-            self.request.user
-        )  # Set the logged-in user as the recipe creator
+        form.instance.user = self.request.user
+        base64_string = form.cleaned_data.get(
+            "base64_string"
+        )  # Assuming the field name is 'pic' in your form
+        if base64_string:
+            form.instance.pic = base64_string
         return super().form_valid(form)
 
 
