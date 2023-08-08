@@ -187,7 +187,9 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
     success_url = "/your_recipes"  # Use the actual URL name for success URL
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.user = (
+            self.request.user
+        )  # Set the logged-in user as the recipe creator
         return super().form_valid(form)
 
 
