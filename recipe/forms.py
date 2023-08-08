@@ -42,6 +42,7 @@ class RecipeForm(forms.ModelForm):
         exclude = [
             "user",
             "recipe_ingredients",
+            "pic"
         ]  # Exclude user and recipe_ingredient fields from the form
 
         pic = forms.FileField(
