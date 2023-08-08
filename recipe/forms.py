@@ -36,10 +36,6 @@ class RecipeSearchForm(forms.Form):
     search = forms.CharField(max_length=150, required=False)
 
 
-from django import forms
-import base64
-
-
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
@@ -48,19 +44,14 @@ class RecipeForm(forms.ModelForm):
             "recipe_ingredients",
         ]  # Exclude user and recipe_ingredient fields from the form
 
-    def clean_pic(self):
-        pic = self.cleaned_data.get("pic")
-        if pic:
-            # Convert the image to base64
-            base64_data = base64.b64encode(pic.read()).decode("utf-8")
-            return base64_data
-        return None
+        pic = forms.FileField(
+            widget=forms.ClearableFileInput(attrs={"accept": "image/*"})
+        )
 
     def save(self, commit=True, user=None):
         instance = super().save(commit=False)
-        instance.user = user
-        pic_base64 = self.cleaned_data.get("pic")
-        instance.pic = pic_base64  # Set the base64-encoded image data
+        if user:
+            instance.user = user
         if commit:
             instance.save()
         return instance
