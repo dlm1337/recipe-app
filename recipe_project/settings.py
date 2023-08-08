@@ -24,12 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ALLOWED_HOSTS = ["serene-eyrie-98382-920f167cb9ee.herokuapp.com"]
 
-DEBUG = False
-# Application definition
-SECRET_KEY = os.environ.get(
-    "DJANGO_SECRET_KEY",
-    "django-insecure-ml49cp(e)=yakpevh4xz)3w)6xuq6kv7g&3^xf^)gr-n3&p#%9",
-)
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
