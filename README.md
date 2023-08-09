@@ -4,9 +4,9 @@ This repository contains the Recipe Application deployed to Heroku(Using Django)
 
 ## Table of Contents  
 - [V1.1](#V_11)
-  - [Starting](#V1-starting)
-  - [Usage](#V1-usage) 
-  - [Help](#V1-help)
+    - [Starting](#V1-starting)
+    - [Usage](#V1-usage) 
+    - [Help](#V1-help)
   - [Authors](#authors)
   - [Acknowledgments](#acknowledgments)
  
