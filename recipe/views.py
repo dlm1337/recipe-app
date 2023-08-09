@@ -13,11 +13,15 @@ from recipeingredient.models import RecipeIngredient
 from ingredient.models import Ingredient
 from django.urls import reverse_lazy
 from django.views.generic import DeleteView
+from django.core.paginator import Paginator
 
 
 class RecipeHome(ListView):
     model = Recipe
     template_name = "recipe/recipes_home.html"
+    context_object_name = (
+        "recipes"  # Optional: You can change this to the variable name in your template
+    )
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -25,20 +29,46 @@ class RecipeHome(ListView):
         for recipe in queryset:
             recipe.title = get_recipe_from_title(recipe.title)
 
-        return queryset
+        return queryset.order_by("id")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        items_per_page = 4  # Number of items to display per page
+        paginated_queryset = self.get_queryset()
+        paginator = Paginator(paginated_queryset, items_per_page)
+
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        context["page_obj"] = page_obj  # Add the paginated page object to the context
+
+        return context
 
 
 class YourRecipesView(LoginRequiredMixin, ListView):
     model = Recipe
     template_name = "recipe/your_recipes.html"
+    context_object_name = "user_recipes"  # Optional: You can change this to the variable name in your template
 
     def get_queryset(self):
-        ## function get_queryset is automatically called by ListView and get the request
-        # user and filters recipes by username.
         user = self.request.user
         queryset = Recipe.objects.filter(user=user)
+        return queryset.order_by("id")
 
-        return queryset
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        items_per_page = 3  # Number of items to display per page
+        paginated_queryset = self.get_queryset()
+        paginator = Paginator(paginated_queryset, items_per_page)
+
+        page_number = self.request.GET.get("page")
+        page_obj = paginator.get_page(page_number)
+
+        context["page_obj"] = page_obj  # Add the paginated page object to the context
+
+        return context
 
 
 def format_cost(cost):
@@ -235,6 +265,14 @@ class IngredientAddView(LoginRequiredMixin, CreateView):
         recipe_ingredient_intermediary.save()
 
         return super().form_valid(form)
+
+    def get_success_url(self):
+        referer = self.request.META.get("HTTP_REFERER")
+ 
+        if referer and referer.startswith(self.request.build_absolute_uri("/")[:-1]):
+            return referer
+        else:
+            return self.success_url
 
 
 class RecipeDeleteView(LoginRequiredMixin, DeleteView):

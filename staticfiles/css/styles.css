@@ -23,7 +23,11 @@ ul {
 }
 
 a {
-    color: #632623;
+    color: rgb(186, 88, 88);
+}
+
+a:hover {
+    color: white;
 }
 
 .btn-primary {

@@ -57,7 +57,7 @@
         <div class="col-10">
             <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;">
                 <section class="container" style="color: white;">
-                    {% for object in object_list %}
+                    {% for object in page_obj %}
                     <div class="row">
                         {% if forloop.counter|divisibleby:2 %}
                         <div class="col-5 p-0">
@@ -93,12 +93,32 @@
                                 </div>
                             </div>
                         </div>
-                        {% endif %}
                     </div>
+                    {% endif %}
+
                     {% endfor %}
-                </section>
-            </main>
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                        <a href="?page=1">&laquo; first</a>
+                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current-page">{{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.</span>
+
+                        {% if page_obj.has_next %}
+                        <a href="?page={{ page_obj.next_page_number }}&per_page=4">next</a>
+                        <a href="?page={{ page_obj.paginator.num_pages }}&per_page=4">last &raquo;</a>
+                        {% else %}
+                        <span class="disabled">next</span>
+                        {% endif %}
+                    </span>
         </div>
+
+
+        </section>
+    </div>
+    </main>
+    </div>
     </div>
     {% endblock %}
     {% block footer %}
