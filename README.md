@@ -15,7 +15,7 @@ This repository contains the Recipe Application deployed to Heroku(Using Django)
 
 ## V1.1
 
-The `add.py` script prompts the user for two numbers and adds them together.
+This is version 1 of the live Recipe App using Django/Heroku. Lets you make users and register your own recipes. As well, you can view others recipes. Only you can manipulate your recipes. feel free to sign up and share your culinary expertise!
 
 ------------------------------------------------------------------------------------------------------------------------
 
