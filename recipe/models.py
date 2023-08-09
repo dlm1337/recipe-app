@@ -43,7 +43,6 @@ class Recipe(models.Model):
         max_length=200, default="No Description has been added currently."
     )
     pic = models.TextField()
-    
 
     def __str__(self):
         return str(self.title)
@@ -63,5 +62,4 @@ class Recipe(models.Model):
             elif self.cooking_time >= 10 and ingredients_len >= 4:
                 return "Hard"
         except:
-            print("Missing an appropriate cooking time or ingredients.")
             return "Missing cooking time or ingredients."

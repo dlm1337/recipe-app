@@ -598,7 +598,6 @@ class RecipeFormTests(TestCase):
         # Create an instance of the form with the form data
         form = RecipeForm(data=form_data)
         form.instance.user = self.user
-        print(str(form))
         self.assertTrue(form.is_valid())
         cleaned_data = form.cleaned_data
 

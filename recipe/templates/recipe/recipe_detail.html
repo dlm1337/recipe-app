@@ -19,8 +19,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4"></div>
-                    <div class="col-2" style="text-align: left; justify-content: left; padding-bottom: 20px;">
+                    <div class="col-3"></div>
+                    <div class="col-3" style="text-align: left; justify-content: left; padding-bottom: 20px;">
                         <br>
                         <b class="card-title-style">Provided By: </b>{{object.user}}
                         <br>
@@ -30,13 +30,11 @@
                         {% if not forloop.last %}| {% endif %}
                         {% endfor %}
                         <br>
-                        <b class="card-title-style">Directions: </b>{{object.directions}}
-                        <br>
                         <b class="card-title-style">Cooking Time: </b>{{object.cooking_time}} minutes
                         <br>
                         <b class="card-title-style">Difficulty: </b>{{object.calculate_difficulty}}
                     </div>
-                    <div class="col-2" style="text-align: left; justify-content: left; padding-bottom: 20px;">
+                    <div class="col-3" style="text-align: left; justify-content: left; padding-bottom: 20px;">
 
                         <br>
                         <b class="card-title-style">Star Count: </b>{{object.star_count}} stars
@@ -51,11 +49,22 @@
                         <br>
                         <b class="card-title-style">Allergens: </b>{{object.allergens}}
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-3"></div>
+                </div>
+                <div class="row" style="text-align: center; align-items: center; justify-content: center;">
+                    <div class="col-3"></div>
+                    <div class="col-6" style="text-align: center;">
+                        <br>
+                        <b class="card-title-style">Directions:
+                        </b>
+                        <div style="word-wrap: break-word;">
+                            {{object.directions}}</div>
+                    </div>
+                    <div class="col-3"></div>
                 </div>
                 {% if recipe_dataframe %}
                 <div class="row">
-                    <div class="col-12" style="text-align: center; justify-content: center;">
+                    <div class="col-12" style="text-align: center; justify-content: center; padding-top: 20px;">
                         <h1 class="card-title-style card-title-underline">
                             <b>Ingredient
                                 Info</b>
