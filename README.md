@@ -3,10 +3,10 @@
 This repository contains the Recipe Application deployed to Heroku(Using Django) for achievement2 of the CareerFoundry advanced python bootcamp.
 
 ## Table of Contents  
-- [V1.1](#V_11)
-    - [Starting](#V1-starting)
-    - [Usage](#V1-usage) 
-    - [Help](#V1-help)
+- [V1.1](#V11)
+    - [Starting](#V11-starting)
+    - [Usage](#V11-usage) 
+    - [Help](#V11-help)
   - [Authors](#authors)
   - [Acknowledgments](#acknowledgments)
  
