@@ -25,13 +25,13 @@ Starting off you can register a user so you can start adding your own recipes. D
 to start building your own recipe!
 ------------------------------------------------------------------------------------------------------------------------
 
-### Exercise_1.1-Usage
+### V_1.1-Usage
 
-The usage of this app would be for storing your recipes with visualizations of data analytic and tables. Others can look at your recipes, but only you can make modifications to your recipes from the 'your profile' page(navigated to on the left nav). Recipes are searchable by ingredient, recipe name, or partial searches matching recipe information. Have fun learning new recipes and sharing your own.  
+The usage of this app would be for storing your recipes with visualizations of data analytic and tables. Others can look at your recipes, but only you can make modifications to your recipes from the 'your profile' page(navigated to on the left nav). Recipes are searchable by ingredient, recipe name, or partial searches matching recipe information. Have fun learning new recipes and sharing your own. ALl the tools needed to have well constructed recipes with visualizations are at your disposal when using this app!
 ------------------------------------------------------------------------------------------------------------------------ 
-### Exercise_1.1-Help
+### V_1.1-Help
 
-If you need help you can contact me from the about me information at the footer of the site.
+If you need help you can contact me from the about me page at the footer of the site.
 
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
