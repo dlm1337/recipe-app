@@ -20,11 +20,7 @@ from django.urls import include
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import login_view, logout_view
-from customuser.views import (
-    register_user,
-    your_profile,
-    success
-)  
+from customuser.views import register_user, your_profile, success, about_me
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -34,6 +30,7 @@ urlpatterns = [
     path("register/", register_user, name="register"),  # Add this URL pattern
     path("your_profile/", your_profile, name="your_profile"),
     path("success/", success, name="success"),
+    path("about_me/", about_me, name="about_me"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

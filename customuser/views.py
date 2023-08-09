@@ -42,3 +42,7 @@ def your_profile(request):
 
 def success(request):
     return render(request, "customuser/success.html")
+
+
+def about_me(request):
+    return render(request, "customuser/about_me.html")
