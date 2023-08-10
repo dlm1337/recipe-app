@@ -64,6 +64,37 @@ class RecipeForm(forms.ModelForm):
         return instance
 
 
+class RecipeEditForm(forms.ModelForm):
+    image = forms.ImageField(
+        label="Image",
+        widget=forms.ClearableFileInput(attrs={"id": "imageInput"}),
+        required=False,
+    )
+    base64_string = forms.CharField(
+        widget=forms.HiddenInput(attrs={"id": "base64Input"}), required=False
+    )
+
+    class Meta:
+        model = Recipe
+        exclude = [
+            "user",
+            "recipe_ingredients",
+            "pic",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["image"].required = False
+
+    def clean_base64_string(self):
+        base64_data = self.cleaned_data.get("base64_string")
+        if not base64_data:
+            pic_data = self.instance.pic  # Access the 'pic' field of the instance
+            if pic_data:
+                return pic_data
+        return base64_data
+
+
 class RecipeIngredientIntermediaryForm(forms.ModelForm):
     recipe_id = forms.IntegerField(widget=forms.HiddenInput(), required=False)
     # Add the fields from RecipeIngredient

@@ -8,6 +8,7 @@ from .views import (
     IngredientAddView,
     RecipeDeleteView,
     RecipeIngredientDeleteView,
+    RecipeEditView,
 )
 
 app_name = "recipe"
@@ -28,4 +29,5 @@ urlpatterns = [
         RecipeIngredientDeleteView.as_view(),
         name="delete_ingredient",
     ),
+    path("edit/<int:pk>/", RecipeEditView.as_view(), name="edit"),
 ]

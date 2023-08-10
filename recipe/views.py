@@ -2,12 +2,17 @@ import json
 from django.views.generic import ListView, DetailView, FormView
 from .models import Recipe
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import RecipeForm, RecipeSearchForm, RecipeIngredientIntermediaryForm
+from .forms import (
+    RecipeForm,
+    RecipeSearchForm,
+    RecipeIngredientIntermediaryForm,
+    RecipeEditForm,
+)
 import pandas as pd
 from .utils import get_recipe_from_title, get_chart
 from django.shortcuts import render, redirect
 from .models import Recipe
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from recipeingredient.models import RecipeIngredient
 from ingredient.models import Ingredient
 from django.urls import reverse_lazy
@@ -307,3 +312,17 @@ class RecipeIngredientDeleteView(LoginRequiredMixin, DeleteView):
             delete_ingredient.delete()
 
         return redirect(self.success_url)
+
+
+class RecipeEditView(LoginRequiredMixin, UpdateView):
+    model = Recipe
+    form_class = RecipeEditForm
+    template_name = "recipe/edit.html"  # Update with your template
+    success_url = reverse_lazy("recipe:your_recipes")  # Update with your success URL
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        base64_string = form.cleaned_data.get("base64_string")
+        if base64_string:
+            form.instance.pic = base64_string
+        return super().form_valid(form)

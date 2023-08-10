@@ -6,10 +6,10 @@
 <div class="row" style="margin-top: 206px; text-align: center; justify-content: center; align-items: center;">
     <div class="col-2"></div>
     <div class="col-10">
-        <main>
-            <section class="container"
-                style="padding-left: 70px; padding-right: 70px; padding-bottom: 20px; height: auto; color: white">
-                <h2 class="card-title-style">Create Recipe</h2>
+        <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;
+         align-items: center; text-align: center; justify-content: center;">
+            <section class="container" style="color: white;">
+                <h2 class="card-title-style">Edit Recipe</h2>
                 <form id="recipeCreate" method="post" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; 
                     justify-content: left; text-align: left; align-items: left;" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -22,9 +22,10 @@
                     {% endfor %}
                     {{ form.base64_string }}
                     <button class="btn btn-primary" type="submit"
-                        style="grid-column: span 2; height: 100px; margin-left: 15%; margin-right: 15%;">Create
-                        Recipe</button>
+                        style="grid-column: span 2; height: 100px; margin-left: 15%; margin-right: 15%;">Save
+                        Changes</button>
                 </form>
+
             </section>
         </main>
     </div>

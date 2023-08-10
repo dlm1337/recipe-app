@@ -1,16 +1,18 @@
 import base64
 import json
-import os
-import uuid
-from django.test import TestCase, override_settings, Client
+from django.test import TestCase, Client
 from .models import Recipe
 from django.core.exceptions import ValidationError
 from recipeingredient.models import RecipeIngredient
 from ingredient.models import Ingredient
 from recipeingredientintermediary.models import RecipeIngredientIntermediary
-from django.core.files import File
 from customuser.models import CustomUser
-from .forms import RecipeSearchForm, RecipeForm, RecipeIngredientIntermediaryForm
+from .forms import (
+    RecipeSearchForm,
+    RecipeForm,
+    RecipeIngredientIntermediaryForm,
+    RecipeEditForm,
+)
 from django.urls import reverse
 from .utils import get_recipe_from_title
 from unittest.mock import patch
@@ -18,7 +20,6 @@ from pandas import DataFrame
 from recipe.views import format_cost
 from django.contrib.auth import get_user_model
 import pandas as pd
-from django.core.files.uploadedfile import SimpleUploadedFile
 
 # Create your tests here.
 
@@ -765,7 +766,9 @@ class RecipeIngredientDeleteViewTest(TestCase):
         response = self.client.post(url)
 
         # Check that the user is redirected to the login page
-        self.assertRedirects(response, "/login/?next=/delete_ingredient/1/Ingredient%25201/")
+        self.assertRedirects(
+            response, "/login/?next=/delete_ingredient/1/Ingredient%25201/"
+        )
 
     def test_ingredient_context_data(self):
         # Login the user
@@ -782,3 +785,134 @@ class RecipeIngredientDeleteViewTest(TestCase):
 
         # Check that the ingredient name is in the context
         self.assertEqual(response.context["ingredient_name"], self.ingredient_name)
+
+
+class RecipeEditFormTest(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username="testuser", email="testuser@example.com", password="testpassword"
+        )
+        self.recipe = Recipe.objects.create(
+            title="Test Recipe",
+            directions="afraefegseg",
+            cooking_time=30,
+            star_count=4,
+            recipe_type="breakfast",
+            adapted_link="https://example.com",
+            servings=4,
+            yield_amount=6,
+            allergens="Dairy, Nuts",
+            small_desc="Test description",
+            pic="no_picture.jpg",
+            user=self.user,
+        )
+
+    def test_clean_base64_string_with_pic(self):
+        # Populate form data with the recipe's existing data
+        form_data = {
+            "image": None,
+            "base64_string": "fdfxgxfgfgxfgxfgxfgxfg",
+            "title": self.recipe.title,
+            "directions": self.recipe.directions,
+            "cooking_time": self.recipe.cooking_time,
+            "star_count": self.recipe.star_count,
+            "recipe_type": self.recipe.recipe_type,
+            "adapted_link": self.recipe.adapted_link,
+            "servings": self.recipe.servings,
+            "yield_amount": self.recipe.yield_amount,
+            "allergens": self.recipe.allergens,
+            "small_desc": self.recipe.small_desc,
+            "pic": self.recipe.pic,
+        }
+
+        # Create a form instance with the above data and the recipe instance
+        form = RecipeEditForm(data=form_data, instance=self.recipe)
+
+        # Validate the form
+        self.assertTrue(form.is_valid())
+
+        # Check if the cleaned_data['base64_string'] is equal to the submitted data
+        self.assertEqual(form.cleaned_data["base64_string"], "fdfxgxfgfgxfgxfgxfgxfg")
+
+    def test_clean_base64_string_with_empty_pic(self):
+        # Populate form data with the recipe's existing data, but with an empty pic
+        form_data = {
+            "image": None,
+            "base64_string": "",
+            "title": self.recipe.title,
+            "directions": self.recipe.directions,
+            "cooking_time": self.recipe.cooking_time,
+            "star_count": self.recipe.star_count,
+            "recipe_type": self.recipe.recipe_type,
+            "adapted_link": self.recipe.adapted_link,
+            "servings": self.recipe.servings,
+            "yield_amount": self.recipe.yield_amount,
+            "allergens": self.recipe.allergens,
+            "small_desc": self.recipe.small_desc,
+            "pic": "",
+        }
+
+        # Create a form instance with the above data and the recipe instance
+        form = RecipeEditForm(data=form_data, instance=self.recipe)
+
+        # Validate the form
+        self.assertTrue(form.is_valid())
+
+        # Check if the cleaned_data['base64_string'] is equal to the 'pic' field
+        self.assertEqual(form.cleaned_data["base64_string"], "no_picture.jpg")
+
+
+class RecipeEditViewTest(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username="testuser", email="testuser@example.com", password="testpassword"
+        )
+        self.recipe = Recipe.objects.create(
+            title="Test Recipe",
+            directions="afraefegseg",
+            cooking_time=30,
+            star_count=4,
+            recipe_type="breakfast",
+            adapted_link="https://example.com",
+            servings=4,
+            yield_amount=6,
+            allergens="Dairy, Nuts",
+            small_desc="Test description",
+            pic="no_picture.jpg",
+            user=self.user,
+        )
+        self.client.login(username="testuser", password="testpassword")
+
+    def test_recipe_edit_view(self):
+        # Create form data with changes
+        form_data = {
+            "title": "New Title",
+            "directions": "New directions",
+            "cooking_time": 45,
+            "star_count": 5,
+            "recipe_type": "lunch",
+            "adapted_link": "https://newexample.com",
+            "servings": 6,
+            "yield_amount": 8,
+            "allergens": "Gluten",
+            "small_desc": "New description",
+            "image": "fake.jpg",
+            "base64_string": "new_base64_data",
+        }
+
+        url = reverse("recipe:edit", kwargs={"pk": self.recipe.pk})
+        response = self.client.post(url, form_data)
+
+        # Check if the response status code is 302 (redirect)
+        self.assertEqual(response.status_code, 302)
+
+        # Check if the recipe's data has been updated
+        updated_recipe = Recipe.objects.get(pk=self.recipe.pk)
+        self.assertEqual(updated_recipe.title, "New Title")
+        self.assertEqual(updated_recipe.directions, "New directions")
+        # ... Check other fields ...
+
+        # Check if the pic field is updated
+        self.assertEqual(updated_recipe.pic, "new_base64_data")

@@ -151,14 +151,11 @@
             {% if user.is_authenticated %}
             <li><a href="/your_recipes" class="btn btn-primary left-nav-button" type="submit">Your Recipes</a></li>
             <li><a href="/create" class="btn btn-primary left-nav-button" type="submit">Create</a></li>
-            <li><a class="btn btn-primary left-nav-button" type="submit">Edit</a></li>
             {% else %}
             <li><a class="btn btn-primary left-nav-button" type="submit" hidden>Your Recipes</a>
             </li>
             <li><a class="btn btn-primary left-nav-button" type="submit" hidden>Create</a></li>
-            <li><a class="btn btn-primary left-nav-button" type="submit" hidden>Edit</a></li>
             {% endif %}
-            </li>
         </ul>
     </div>
 
