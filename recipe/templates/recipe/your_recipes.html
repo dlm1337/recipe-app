@@ -28,7 +28,8 @@
                                     {{ ingredient.ingredient }}
                                     <a
                                         href="{% url 'recipe:delete_ingredient' pk=object.pk ingredient=ingredient.ingredient %}">
-                                        <button class="btn-primary">X</button></a>
+                                        <button class="btn btn-primary btn-custom-smaller-size">X</button>
+                                    </a>
 
                                     {% if not forloop.last %}| {% endif %}
                                     {% endfor %}
