@@ -5,8 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import RecipeForm, RecipeSearchForm, RecipeIngredientIntermediaryForm
 import pandas as pd
 from .utils import get_recipe_from_title, get_chart
-from django.shortcuts import render
-from django.utils.html import format_html
+from django.shortcuts import render, redirect
 from .models import Recipe
 from django.views.generic.edit import CreateView
 from recipeingredient.models import RecipeIngredient
@@ -268,7 +267,7 @@ class IngredientAddView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         referer = self.request.META.get("HTTP_REFERER")
- 
+
         if referer and referer.startswith(self.request.build_absolute_uri("/")[:-1]):
             return referer
         else:
@@ -279,3 +278,32 @@ class RecipeDeleteView(LoginRequiredMixin, DeleteView):
     model = Recipe
     template_name = "recipe/delete.html"
     success_url = reverse_lazy("recipe:your_recipes")
+
+
+class RecipeIngredientDeleteView(LoginRequiredMixin, DeleteView):
+    model = Recipe
+    template_name = "recipe/delete_ingredient.html"
+    success_url = reverse_lazy("recipe:your_recipes")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["ingredient_name"] = self.kwargs.get("ingredient")
+        return context
+
+    def form_valid(self, form):
+        ingredient_name = self.kwargs.get("ingredient")
+        recipe_pk = self.kwargs.get("pk")
+
+        # Retrieve the recipe using the primary key
+        recipe = Recipe.objects.get(id=recipe_pk)
+        # Find the RecipeIngredient that matches the ingredient name
+        delete_ingredient = None
+        for ingredient in recipe.recipe_ingredients.all():
+            if str(ingredient.ingredient) == ingredient_name:
+                delete_ingredient = ingredient
+                break
+
+        if delete_ingredient is not None:
+            delete_ingredient.delete()
+
+        return redirect(self.success_url)

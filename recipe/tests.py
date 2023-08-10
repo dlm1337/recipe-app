@@ -693,3 +693,92 @@ class RecipeDeleteViewTest(TestCase):
         response = self.client.post(self.url)
         self.assertEqual(response.status_code, 302)  # Redirects after deletion
         self.assertFalse(Recipe.objects.filter(pk=self.recipe.pk).exists())
+
+
+class RecipeIngredientDeleteViewTest(TestCase):
+    def setUp(self):
+        # Create a user
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username="testuser", email="testuser@example.com", password="testpassword"
+        )
+        self.recipe = Recipe.objects.create(
+            title="Test Recipe",
+            directions="afraefegseg",
+            cooking_time=30,
+            star_count=4,
+            recipe_type="breakfast",
+            adapted_link="https://example.com",
+            servings=4,
+            yield_amount=6,
+            allergens="Dairy, Nuts",
+            small_desc="Test description",
+            pic="no_picture.jpg",
+            user=self.user,
+        )
+
+        ri1 = RecipeIngredient.objects.create(
+            ingredient=Ingredient.objects.create(name="Ingredient 1"),
+            calorie_content=20,
+            amount=1.5,
+            amount_type="cup",
+            cost=20.40,
+            supplier="supplier",
+            grams=20.22,
+        )
+
+        self.recipe.recipe_ingredients.add(ri1)
+        # Create a recipe ingredient
+        self.ingredient_name = "Ingredient 1"
+
+    def test_ingredient_deletion(self):
+        # Login the user
+        self.client.login(username="testuser", password="testpassword")
+
+        # Get the URL for the delete view
+        url = reverse(
+            "recipe:delete_ingredient",
+            kwargs={"pk": 1, "ingredient": "Ingredient 1"},
+        )
+
+        # Delete the ingredient using a POST request
+        response = self.client.post(url)
+
+        # Check that the ingredient is deleted
+        self.assertEqual(response.status_code, 302)  # Redirect after deletion
+        self.assertEqual(self.recipe.recipe_ingredients.count(), 0)
+
+        # Check that the success URL is used
+        self.assertRedirects(response, reverse("recipe:your_recipes"))
+
+    def test_ingredient_deletion_not_authenticated(self):
+        # Logout the user
+        self.client.logout()
+
+        # Get the URL for the delete view
+        url = reverse(
+            "recipe:delete_ingredient",
+            kwargs={"pk": 1, "ingredient": "Ingredient 1"},
+        )
+
+        # Try to delete the ingredient without being logged in
+        response = self.client.post(url)
+
+        # Check that the user is redirected to the login page
+        self.assertRedirects(response, "/login/?next=/delete_ingredient/1/Ingredient%25201/")
+
+    def test_ingredient_context_data(self):
+        # Login the user
+        self.client.login(username="testuser", password="testpassword")
+
+        # Get the URL for the delete view
+        url = reverse(
+            "recipe:delete_ingredient",
+            kwargs={"pk": 1, "ingredient": "Ingredient 1"},
+        )
+
+        # Access the delete view
+        response = self.client.get(url)
+
+        # Check that the ingredient name is in the context
+        self.assertEqual(response.context["ingredient_name"], self.ingredient_name)

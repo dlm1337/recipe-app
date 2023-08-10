@@ -11,7 +11,7 @@
             <section class="container" style="color: white;">
                 <form method="post">
                     {% csrf_token %}
-                    <p>Are you sure you want to delete "{{ object }}"?</p>
+                    <p>Are you sure you want to delete "{{ ingredient_name }}"?</p>
                     <button class="btn btn-warning" type="submit">Confirm</button>
                 </form>
                 <a class="btn btn-primary" href="{% url 'recipe:your_recipes' %}" style="margin-top: 40px">Cancel</a>
