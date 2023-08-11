@@ -71,7 +71,8 @@ class RecipeEditForm(forms.ModelForm):
         required=False,
     )
     base64_string = forms.CharField(
-        widget=forms.HiddenInput(attrs={"id": "base64Input"}), required=False
+        widget=forms.HiddenInput(attrs={"id": "base64Input"}),
+        required=False,  # Set this field as not required
     )
 
     class Meta:
@@ -86,13 +87,17 @@ class RecipeEditForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields["image"].required = False
 
-    def clean_base64_string(self):
-        base64_data = self.cleaned_data.get("base64_string")
-        if not base64_data:
-            pic_data = self.instance.pic  # Access the 'pic' field of the instance
-            if pic_data:
-                return pic_data
-        return base64_data
+        # If the instance has pic data, populate base64_string with it
+        if self.instance.pic:
+            self.fields["base64_string"].initial = self.instance.pic
+
+    def save(self, commit=True, user=None):
+        instance = super().save(commit=False)
+        if user:
+            instance.user = user
+        if commit:
+            instance.save()
+        return instance
 
 
 class RecipeIngredientIntermediaryForm(forms.ModelForm):

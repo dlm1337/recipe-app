@@ -53,14 +53,22 @@
         let fileInput = document.getElementById('imageInput');
         let file = fileInput.files[0];
 
-
-        let reader = new FileReader();
-        reader.onloadend = function () {
-            let base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
-            document.getElementById('base64Input').value = base64String;
+        if (file != null && file) {
+            let reader = new FileReader();
+            reader.onloadend = function () {
+                let base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, "");
+                document.getElementById('base64Input').value = base64String;
+                document.getElementById('recipeCreate').submit();
+            };
+            reader.readAsDataURL(file);
+        } else {
+            // Access the 'pic' attribute from the provided object and log it
+            let picData = '{{ recipe.pic|default:"No pic data" }}';  // Replace with actual template variable
+            console.log("Pic Data:", picData);
+            document.getElementById('base64Input').value = picData;
             document.getElementById('recipeCreate').submit();
         }
-        reader.readAsDataURL(file);
     });
+
 </script>
 {% endblock %}

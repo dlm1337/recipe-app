@@ -860,7 +860,7 @@ class RecipeEditFormTest(TestCase):
         self.assertTrue(form.is_valid())
 
         # Check if the cleaned_data['base64_string'] is equal to the 'pic' field
-        self.assertEqual(form.cleaned_data["base64_string"], "no_picture.jpg")
+        self.assertEqual(form.cleaned_data["base64_string"], "")
 
 
 class RecipeEditViewTest(TestCase):
