@@ -168,3 +168,19 @@ footer {
     font-size: 8px;
     /* Adjust font size to match the button size */
 }
+
+/* Media query for screens 800px and below */
+@media (max-width: 1000px) {
+    .set-1000px-or-below {
+        display: none;
+        /* Hide the button group when the screen size is 800px or below */
+    }
+}
+
+@media (min-width: 1001px) {
+    .set-1000px-or-above {
+        display: none;
+        /* Hide the button group when the screen size is 800px or below */
+    }
+}
+ 

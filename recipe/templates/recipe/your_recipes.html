@@ -26,10 +26,8 @@
                                     style="border:1px solid  #1DE244; border-radius: 3px; word-wrap: break-word; height:80px; font-size: small;">
                                     {% for ingredient in object.recipe_ingredients.all %}
                                     {{ ingredient.ingredient }}
-                                    <a
-                                        href="{% url 'recipe:delete_ingredient' pk=object.pk ingredient=ingredient.ingredient %}">
-                                        <button class="btn btn-primary btn-custom-smaller-size">X</button>
-                                    </a>
+                                    <a class="btn btn-primary btn-custom-smaller-size"
+                                        href="{% url 'recipe:delete_ingredient' pk=object.pk ingredient=ingredient.ingredient %}">X</a>
 
                                     {% if not forloop.last %}| {% endif %}
                                     {% endfor %}
