@@ -175,12 +175,37 @@ footer {
         display: none;
         /* Hide the button group when the screen size is 800px or below */
     }
+    header {
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 160px;
+        background-color: #222c1fa8;
+        color: #fff;
+        text-align: center;
+        border-bottom: 1px solid #0F140E;
+    }
+    
 }
 
 @media (min-width: 1001px) {
     .set-1000px-or-above {
         display: none;
         /* Hide the button group when the screen size is 800px or below */
+    }
+    header {
+        z-index: 1;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 140px;
+        background-color: #222c1ff8;
+        color: #fff;
+        text-align: center;
+        border-bottom: 1px solid #0F140E;
     }
 }
  
