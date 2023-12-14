@@ -19,36 +19,37 @@ ul {
 }
 
 :root {
-    --primary-color: #2cee53;
-}
-
-a {
-    color: rgb(186, 88, 88);
-}
-
-a:hover {
-    color: white;
+    --primary-color: #d2c0b2;
 }
 
 .btn-primary {
-    color: #632623;
+    color: #121e26;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: larger;
     font-weight: bold;
     background-color: var(--primary-color);
     border-color: var(--primary-color);
     border: 5px solid;
-    border-color: #2ac549;
+    border-color: #f4efeb;
 }
 
 .btn-primary:hover {
-    background-color: #2cee53;
-    border-color: #c1ffa5;
+    color: #121e26;
+    background-color: #f4efeb;
+    border-color: #f4efeb;
 
 }
 
 .d-none {
     display: none;
+}
+
+.site-title {
+    color: white;
+    font-size: 16px;
+    font-weight: bolder;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
 }
 
 header {
@@ -128,13 +129,13 @@ footer {
 .card-style {
     padding: 20px;
     border-radius: 0;
-    background-color: #2F2332;
+    background-color: #d2c0b2;
 }
 
 .card-title-style {
-    color: #f8a19e;
+    color: #121e26;
     font-weight: lighter;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .card-text-border {
@@ -142,7 +143,7 @@ footer {
     padding: 20px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height: 200px;
-    border: 1px solid #1e8a33b4;
+    border: 2px solid #121e26;
     border-radius: 3px;
     word-wrap: break-word;
 }
@@ -163,12 +164,21 @@ footer {
     /* Adjust font size to match the button size */
 }
 
+.custom-select {
+    border-radius: 5px;
+}
+
+.form-control {
+    border-radius: 10px;
+}
+
 /* Media query for screens 800px and below */
 @media (max-width: 1000px) {
-    .set-1000px-or-below {
+    .set-1000px-or-above {
         display: none;
         /* Hide the button group when the screen size is 800px or below */
     }
+
     header {
         z-index: 1;
         position: fixed;
@@ -176,19 +186,20 @@ footer {
         left: 0;
         right: 0;
         height: 160px;
-        background-color: #222c1fa8;
+        background-color: #283635;
         color: #fff;
         text-align: center;
         border-bottom: 1px solid #0F140E;
     }
-    
+
 }
 
 @media (min-width: 1001px) {
-    .set-1000px-or-above {
+    .set-1000px-or-below {
         display: none;
         /* Hide the button group when the screen size is 800px or below */
     }
+
     header {
         z-index: 1;
         position: fixed;
@@ -196,10 +207,9 @@ footer {
         left: 0;
         right: 0;
         height: 140px;
-        background-color: #222c1ff8;
+        background-color: #283635;
         color: #fff;
         text-align: center;
         border-bottom: 1px solid #0F140E;
     }
 }
- 
