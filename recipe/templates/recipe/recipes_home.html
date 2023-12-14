@@ -10,55 +10,65 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 
-<body style="background:linear-gradient(#3D5038, #151b14)">
+<body style="background:white">
     {% block navbar %}
     <header>
         <div class="container">
-            <nav class="navbar set-1000px-or-below" style="position:absolute; top:0px; left: 0px; width: 100%;">
-                <div class="col-5">
-                    <img class="img-fluid" style="width:240px; pointer-events: none;"
-                        src="{% static 'images/tomato-g820ca7bb9_640.png' %}">
+            <nav class="navbar set-1000px-or-above" style="position:absolute; top:0px; left: 0px; width: 100%;">
+                <div class="col-1">
+                    <img class="img-fluid" style="width:100%; pointer-events: none;"
+                        src="{% static 'images/cutting-board-logo.png' %}">
                 </div>
-                <div class="col-4">
-                    <form action="{% url 'recipe:search' %}" method="post">
-                        {% csrf_token %}
-                        {{ search_form.as_p }}
-                    </form>
+                <div class="col-2 site-title">
+                    The Butcher's Block
+                </div>
+                <div class="col-6">
+                    <div class="vertical-form">
+                        <form action="{% url 'recipe:search' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-field" style="width: 100%; z-index: 1; display: block;">
+
+                                {{ search_form.search_mode }}
+                                {{ search_form.search }}
+
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="col-3">
                     <div class="btn-group" role="group" aria-label="Button row" id="buttonContainer">
                         {% if user.is_authenticated %}
-                        <button type="button" class="btn btn-primary mx-2"><a href="{%url 'logout' %}"> Logout
-                            </a></button>
-                        <button type="button" class="btn btn-primary mx-2"><a href="{%url 'your_profile' %}">
-                                Profile
-                            </a></button>
+                        <a href="/logout" class="btn btn-primary mx-2" type="submit">Logout</a>
+                        <a href="/your_profile" class="btn btn-primary mx-2" type="submit">Profile</a>
                         {% else %}
-                        <button type="button" class="btn btn-primary mx-2"> <a href="{%url 'login' %}"> Login
-                            </a></button>
-                        <button id="signUpBtn" type="button" class="btn btn-primary mx-2" data-bs-toggle="popover"
-                            data-bs-html="true">
-                            <a href="{%url 'register' %}"> Register
-                            </a>
-                        </button>
+                        <a href="/login" class="btn btn-primary mx-2" type="submit">Login</a>
+                        <a id="signUpBtn" href="/register" class="btn btn-primary mx-2" type="submit"
+                            data-bs-toggle="popover" data-bs-html="true">Sign Up</a>
                         {% endif %}
                     </div>
                 </div>
             </nav>
-            <nav class="navbar set-1000px-or-above" style="position:absolute; top:0px; left: 0px; width: 100%;">
-                <div class="col-4">
-                    <img class="img-fluid" style="width:240px; pointer-events: none;"
-                        src="{% static 'images/tomato-g820ca7bb9_640.png' %}">
+            <nav class="navbar set-1000px-or-below" style="position:absolute; top:0px; left: 0px; width: 100%;">
+                <div class="col-2">
+                    <img class="img-fluid" style="width:140px; pointer-events: none;"
+                        src="{% static 'images/cutting-board-logo.png' %}">
+                </div>
+                <div class="col-2 site-title">
+                    The Butcher's Block
                 </div>
                 <div class="col-4">
-                    <form action="{% url 'recipe:search' %}" method="post">
-                        {% csrf_token %}
-                        <div class="form-field" style="width: 190px; z-index: 1;">
-                            {{ search_form.search_mode }}
-                            {{ search_form.search }}
-                        </div>
-                        <button class="btn btn-primary" type="submit" name="search_btn" style="z-index: 1;">Go</button>
-                    </form>
+                    <div class="vertical-form">
+                        <form action="{% url 'recipe:search' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-field" style="width: 100%; z-index: 1; display: block;">
+
+                                {{ search_form.search_mode }}
+                                {{ search_form.search }}
+
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
                 <div class="col-4">
 
@@ -88,18 +98,18 @@
 
     {% block main %}
 
-    <div class="row set-1000px-or-below" style="margin-top: 206px">
+    <div class="row set-1000px-or-above" style="margin-top: 206px">
         <div class="col-2"></div>
         <div class="col-10">
             <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;">
-                <section class="container" style="color: white;">
+                <section class="container" style="color: #121e26;">
                     {% for object in page_obj %}
                     <div class="row">
                         {% if forloop.counter|divisibleby:2 %}
                         <div class="col-5 p-0">
                             <div class="card h-100 card-style" style="border-radius: 0;">
                                 <div class="card-body">
-                                    <h3 class="card-title card-title-underline card-title-style">
+                                    <h3 class="card-title card-title-style">
                                         <b>{{object.title}}</b>
                                     </h3>
                                     <p class="card-text card-text-border">{{ object.small_desc}}</p>
@@ -119,7 +129,7 @@
                         <div class="col-5 p-0">
                             <div class="card h-100 card-style" style="border-radius: 0;">
                                 <div class=" card-body">
-                                    <h3 class="card-title card-title-underline card-title-style">
+                                    <h3 class="card-title card-title-style">
                                         <b>{{object.title}}</b>
                                     </h3>
                                     <p class="card-text card-text-border">
@@ -154,16 +164,16 @@
     </div>
 
 
-    <div class="row set-1000px-or-above" style="margin-top: 206px">
+    <div class="row set-1000px-or-below" style="margin-top: 206px">
         <div class="col-12">
             <main style="padding-left: 50px; padding-right: 50px; padding-bottom:30px;">
-                <section class="container" style="color: white;">
+                <section class="container" style="color: #121e26">
                     {% for object in page_obj %}
                     <div class="row" style="padding-top: 20px;">
                         <div class="col-12 p-0">
                             <div class="card h-100 card-style" style="border-radius: 0;">
                                 <div class="card-body">
-                                    <h3 class="card-title card-title-underline card-title-style">
+                                    <h3 class="card-title card-title-style">
                                         <b>{{ object.title }}</b>
                                     </h3>
                                     <p class="card-text card-text-border">{{ object.small_desc }}</p>
@@ -211,8 +221,7 @@
                 <div class="col-7"></div>
                 <div class="col-3">
                     <div class="btn-group" role="group" aria-label="Button row">
-                        <button type="button" class="btn btn-primary mx-2"><a href="{%url 'about_me' %}">About Me
-                            </a></button>
+                        <a href="/about_me" class="btn btn-primary mx-2" type="submit">About</a>
                         <button type="button" class="btn btn-primary mx-2">Contact</button>
                     </div>
                 </div>
@@ -222,7 +231,7 @@
     {% endblock %}
 
     {% block left-navbar %}
-    <div class="left-navigation row set-1000px-or-below">
+    <div class="left-navigation row set-1000px-or-above">
         <ul>
             <li><a href="/" class="btn btn-primary left-nav-button" type="submit">Home</a></li>
 
@@ -267,7 +276,6 @@
             initializePopover();
         });
     </script>
-
     {% endif %}
     {% endblock %}
 

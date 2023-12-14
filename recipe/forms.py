@@ -32,11 +32,22 @@ AMOUNT_TYPES = (
 
 
 class RecipeSearchForm(forms.Form):
-    search_mode = forms.ChoiceField(choices=SEARCH__CHOICES)
+    search_mode = forms.ChoiceField(
+        choices=SEARCH__CHOICES,
+        widget=forms.Select(
+            attrs={"class": "custom-select", "style": "display: block; width: 100%;"}
+        ),
+    )
     search = forms.CharField(
         max_length=150,
         required=False,
-        widget=forms.TextInput(attrs={"placeholder": "Search..."}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Search...",
+                "style": "display: block; width: 100%;",
+            }
+        ),
     )
 
 
