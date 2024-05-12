@@ -1,7 +1,7 @@
 # CareerFoundry Recipe App
 
-View live app at this website: https://serene-eyrie-98382-920f167cb9ee.herokuapp.com/
-This repository contains the Recipe Application deployed to Heroku(Using Django) for achievement2 of the CareerFoundry advanced python bootcamp.
+1. View live app at this website: https://serene-eyrie-98382-920f167cb9ee.herokuapp.com/
+2. This repository contains the Recipe Application deployed to Heroku(Using Django) for achievement2 of the CareerFoundry advanced python bootcamp.
 
 ## Table of Contents  
 - [V1.1](#V11)
